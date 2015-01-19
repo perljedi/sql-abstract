@@ -117,8 +117,22 @@ for my $case( @cases) {
     $case->{expects},
     $case->{bind} || [],
   );
+  ($stat, @bind) = $sql->where(undef, $case->{given});
+  is_same_sql_bind (
+    $stat,
+    \@bind,
+    $case->{expects},
+    $case->{bind} || [],
+  );
 
   ($stat, @bind) = $sqlq->_order_by($case->{given});
+  is_same_sql_bind (
+    $stat,
+    \@bind,
+    $case->{expects_quoted},
+    $case->{bind} || [],
+  );
+  ($stat, @bind) = $sqlq->where(undef, $case->{given});
   is_same_sql_bind (
     $stat,
     \@bind,
